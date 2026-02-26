@@ -1,0 +1,26 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Pill Dispenser</title>
+  <style>
+    body { font-family: Arial, sans-serif; background:#0f172a; color:#e2e8f0; margin:0; padding:24px; }
+    .card { max-width:720px; margin:0 auto; background:rgba(255,255,255,0.06); padding:18px; border-radius:14px; }
+    a.btn { display:inline-block; padding:12px 16px; border-radius:10px; text-decoration:none; color:white; margin:6px 6px 0 0; }
+    .nurse { background:#ec4899; }
+    .patient { background:#22c55e; }
+    code { background:rgba(255,255,255,0.10); padding:2px 6px; border-radius:6px; }
+  </style>
+</head>
+<body>
+  <div class="card">
+    <h1>🏥 Pill Dispenser</h1>
+    <p>Device: <code>{{ deviceId }}</code></p>
+    <p>
+      <a class="btn nurse" href="/nurse/{{ deviceId }}">👩‍⚕️ Enfermera</a>
+      <a class="btn patient" href="/patient/{{ deviceId }}">👤 Paciente</a>
+    </p>
+  </div>
+</body>
+</html>
