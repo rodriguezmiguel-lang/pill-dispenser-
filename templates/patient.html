@@ -1,0 +1,31 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Patient - {{ deviceId }}</title>
+  <style>
+    body { font-family: Arial, sans-serif; background:#0b1020; color:#e2e8f0; margin:0; padding:24px; }
+    .card { max-width:780px; margin:0 auto; background:rgba(255,255,255,0.06); padding:18px; border-radius:14px; }
+    .item { background:rgba(255,255,255,0.08); padding:10px 12px; border-radius:12px; margin:8px 0; }
+    a { color:#93c5fd; text-decoration:none; }
+  </style>
+</head>
+<body>
+  <div class="card">
+    <h1>👤 Patient</h1>
+    <p>Device: <strong>{{ deviceId }}</strong></p>
+
+    <h3>Historial</h3>
+    {% if hist and (hist|length) > 0 %}
+      {% for h in hist %}
+        <div class="item">🕐 timestamp: <strong>{{ h["timestamp"] }}</strong></div>
+      {% endfor %}
+    {% else %}
+      <p><em>Aún no hay registros.</em></p>
+    {% endif %}
+
+    <p style="margin-top: 18px;"><a href="/">← Volver</a></p>
+  </div>
+</body>
+</html>
