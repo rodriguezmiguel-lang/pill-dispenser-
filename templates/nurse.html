@@ -1,0 +1,62 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Nurse - {{ deviceId }}</title>
+  <style>
+    body { font-family: Arial, sans-serif; background:#111827; color:#e5e7eb; margin:0; padding:24px; }
+    .card { max-width:780px; margin:0 auto; background:rgba(255,255,255,0.06); padding:18px; border-radius:14px; }
+    input { padding:10px; border-radius:10px; border:none; width:160px; margin:6px; }
+    button { padding:12px 16px; border-radius:10px; border:none; cursor:pointer; background:#22c55e; font-weight:700; }
+    .pill { display:inline-block; background:rgba(255,255,255,0.10); padding:8px 10px; border-radius:999px; margin:6px 6px 0 0; }
+    a { color:#93c5fd; text-decoration:none; }
+  </style>
+</head>
+<body>
+  <div class="card">
+    <h1>👩‍⚕️ Nurse</h1>
+    <p>Device: <strong>{{ deviceId }}</strong></p>
+
+    <h3>Programar 3 horarios</h3>
+    <form id="scheduleForm">
+      <div><label>Hora 1</label><br /><input type="time" name="t1" required /></div>
+      <div><label>Hora 2</label><br /><input type="time" name="t2" required /></div>
+      <div><label>Hora 3</label><br /><input type="time" name="t3" required /></div>
+      <p><button type="submit">Guardar</button></p>
+    </form>
+
+    <h3>Horarios actuales</h3>
+    {% if sched and (sched|length) > 0 %}
+      {% for s in sched %}
+        <span class="pill">{{ "%02d"|format(s["hour"]) }}:{{ "%02d"|format(s["minute"]) }}</span>
+      {% endfor %}
+    {% else %}
+      <p><em>No hay horarios guardados.</em></p>
+    {% endif %}
+
+    <p style="margin-top: 18px;"><a href="/">← Volver</a></p>
+  </div>
+
+  <script>
+    document.getElementById("scheduleForm").addEventListener("submit", async (e) => {
+      e.preventDefault();
+      const ids = ["t1","t2","t3"];
+      const times = ids.map((id) => {
+        const val = document.querySelector(`[name=${id}]`).value;
+        const [h, m] = val.split(":");
+        return {hour: parseInt(h, 10), minute: parseInt(m, 10)};
+      });
+
+      const res = await fetch(`/api/schedule/{{deviceId}}`, {
+        method: "POST",
+        headers: {"Content-Type":"application/json"},
+        body: JSON.stringify({times})
+      });
+
+      if (res.ok) { alert("✅ Guardado"); location.reload(); }
+      else { alert("❌ Error"); }
+    });
+  </script>
+</body>
+</html>
